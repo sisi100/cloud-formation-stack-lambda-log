@@ -24,7 +24,7 @@ if [ -z "$lambda_resources" ]; then
     echo "Lambda関数がありませんでした"
     exit 0
 fi
-selected_lambda=$(echo "$lambda_resources" | fzf --preview "echo {} | awk '{print \$2}' | xargs -I {} aws logs tail /aws/lambda/{} --format short --since 5m") # 直近5分のログを表示
+selected_lambda=$(echo "$lambda_resources" | fzf --preview "aws logs tail /aws/lambda/{2} --format short --since 5m") # 直近5分のログを表示
 
 # ログをtailする
 physical_resource_id=$(echo "$selected_lambda" | awk '{print $2}')
