@@ -10,6 +10,13 @@ if ! command -v fzf &> /dev/null; then
     exit 1
 fi
 
+if command -v aws-vault; then
+    # aws-vaultがインストールされている場合は、aws-vaultでProfileを選択して変数を設定する
+    profiles=$(aws-vault list --profiles)
+    profile=$(echo "$profiles" | fzf)
+    export $(aws-vault exec "$profile" -- env | grep AWS_ | grep -v AWS_VAULT)
+fi
+
 # Stackの選択
 stacks=$(aws cloudformation list-stacks --query "StackSummaries[?StackStatus=='CREATE_COMPLETE' || StackStatus=='UPDATE_COMPLETE'].[StackName]" --output text)
 if [ -z "$stacks" ]; then
