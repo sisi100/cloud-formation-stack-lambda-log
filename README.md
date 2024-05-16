@@ -10,7 +10,13 @@
 下記がインストールされている必要があります
 
 - fzf
-- aws-cli
+- aws-cli （v2以降）
+
+```sh
+# mac 向けインストール手順
+brew install fzf
+brew install awscli
+```
 
 ## インストール方法
 
